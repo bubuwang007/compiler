@@ -1,4 +1,5 @@
 {
+    # QuickSort partitioning step
     int i; int j; float[100] a; float v; float x;
     while (true) {
         do i = i + 1; while ( a[i] < v );

@@ -1,3 +1,6 @@
-from src import test
+from src import Lexer, Reader
 
-test()
+l = Lexer(Reader.from_file("test.st"))
+
+for i in l.tokens():
+    print(i)
