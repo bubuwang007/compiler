@@ -1,3 +1,7 @@
 # QuickSort partitioning step
 
-int a
+int a 100.56e-15
+
+<=
+
+<

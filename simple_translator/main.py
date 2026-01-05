@@ -1,6 +1,7 @@
 from src import Lexer, Reader
 
-l = Lexer(Reader.from_file("test.st"))
+l = Lexer(Reader.from_file("code.st"))
 
-for i in l.tokens():
-    print(i)
+with open("tokens.txt", "w", encoding="utf-8") as f:
+    for i in l.tokens():
+        print(i, file=f)

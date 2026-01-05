@@ -14,6 +14,9 @@ class Keywords(enum.Enum):
     ELSE = "else"
     BREAK = "break"
 
+    def __str__(self):
+        return "Keywords." + self.name
+
     @staticmethod
     def get(value: str) -> Keywords | None:
         return Keywords.mapping.get(value, None)
