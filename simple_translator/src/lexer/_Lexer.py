@@ -47,13 +47,15 @@ class Lexer:
             elif (tok := self.symbol(c)) is not None:
                 yield tok
                 continue
+            raise self.error("Invalid character")
 
-            raise LexerException(
-                "Invalid character",
-                self._reader.file,
-                self._reader.line,
-                self.start_column,
-            )
+    def error(self, message):
+        raise LexerException(
+            message,
+            self._reader.file,
+            self._reader.line,
+            self.start_column,
+        )
 
     def comment(self) -> TokenInfo:
         self._reader.consume_char()
@@ -153,7 +155,7 @@ class Lexer:
                 )
             elif c.isdigit():
                 self._reader.consume_char()
-    
+
     def symbol(self, c: str) -> TokenInfo:
         return self.two_char_symbol(c)
 
