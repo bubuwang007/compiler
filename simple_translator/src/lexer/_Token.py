@@ -8,6 +8,9 @@ class Token(enum.Enum):
 
     INT = "int"
     FLOAT = "float"
+    CHAR = "char"
+    STR = "str"
+
     KEYWORD = "keyword"
     IDENTIFIER = "id"
     COMMENT = "comment"
@@ -51,6 +54,9 @@ class Token(enum.Enum):
     def get_one_char(c):
         return Token.ONECHAR.get(c)
 
+    @staticmethod
+    def is_basic_type(token: Token) -> bool:
+        return token in [Token.INT, Token.FLOAT, Token.CHAR, Token.STR]
 
 Token.ONECHAR = {
     Token.SEMICOLON.value: Token.SEMICOLON,

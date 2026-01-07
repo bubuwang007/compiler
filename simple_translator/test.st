@@ -1,7 +1,5 @@
-# QuickSort partitioning step
-
-int a 100.56e-15
-
-<=
-
-<
+{
+    int a;
+    char b = 'd';
+    str s = "hello";
+}

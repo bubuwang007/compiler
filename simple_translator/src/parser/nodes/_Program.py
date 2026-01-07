@@ -1,15 +1,10 @@
-from __future__ import annotations
-from typing import TYPE_CHECKING
+from ._Node import Node
+from ._Block import Block
 
-if TYPE_CHECKING:
-    from .._Parser import Parser
-
-class Program:
-
-    parser: Parser
-
-    def __init__(self, parser: Parser):
-        self.parser = parser
+class Program(Node):
 
     def gen(self):
-        print("Program")
+        print("Program Start")
+        block = Block(self.parser)
+        block.gen()
+        print("Program End")

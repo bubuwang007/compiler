@@ -1,3 +1,3 @@
 from src import Parser
 
-Parser.from_file("code.st").gen()
+Parser.from_file("test.st").gen()

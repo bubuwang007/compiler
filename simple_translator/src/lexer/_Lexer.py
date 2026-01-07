@@ -38,6 +38,12 @@ class Lexer:
             elif c == "#":
                 yield self.comment()
                 continue
+            elif c == "'":
+                yield self.char()
+                continue
+            elif c == '"':
+                yield self.string()
+                continue
             elif self.is_potential_identifier_start(c):
                 yield self.identifier_or_keywords()
                 continue
@@ -69,6 +75,72 @@ class Lexer:
                     self.start_column,
                     self._reader.column - 1,
                 )
+            self._reader.consume_char()
+
+    def char(self) -> TokenInfo:
+        self._reader.consume_char()
+        c = self._reader.next_char()
+        if c is None:
+            self.error("Unterminated character literal")
+        self._reader.consume_char()
+        if self._reader.next_char() != "'":
+            self.error("Only one character allowed in character literal")
+        self._reader.consume_char()
+        return TokenInfo(
+            Token.CHAR,
+            self._reader._content[self.start : self._reader.current],
+            self._reader.line,
+            self.start_column,
+            self._reader.column - 1,
+        )
+
+    def string(self) -> TokenInfo:
+        self._reader.consume_char()
+        s = []
+        while True:
+            c = self._reader.next_char()
+
+            if c is None or c == "\n":
+                self.error("Unterminated string literal")
+            elif c == "\\":
+                self._reader.consume_char()
+                t = self._reader.next_char()
+                match t:
+                    case "n":
+                        s.append("\n")
+                    case "t":
+                        s.append("\t")
+                    case "\\":
+                        s.append("\\")
+                    case '"':
+                        s.append('\"')
+                    case "0":
+                        s.append("\0")
+                    case "r":
+                        s.append("\r")
+                    case "b":
+                        s.append("\b")
+                    case "f":
+                        s.append("\f")
+                    case "v":
+                        s.append("\v")
+                    case "a":
+                        s.append("\a")
+                    case _:
+                        self.error("Invalid escape sequence")
+            elif c == '"':
+                self._reader.consume_char()
+                return TokenInfo(
+                    Token.STR,
+                    self._reader._content[self.start : self._reader.current],
+                    self._reader.line,
+                    self.start_column,
+                    self._reader.column - 1,
+                )
+            elif c is None:
+                self.error("Unterminated string literal")
+            else:
+                s.append(c)
             self._reader.consume_char()
 
     def identifier_or_keywords(self) -> TokenInfo:

@@ -3,13 +3,17 @@ from ..lexer import Lexer, Reader, Keywords, Token
 from .._Env import Env
 from .nodes import Program
 
+
 class Parser:
     lex: Lexer
     top: Env
     look: Token | Keywords
 
+    block_num = 0
+
     def __init__(self, lex: Lexer):
         self.lex = lex
+        self.top = None
 
     @staticmethod
     def from_file(file_path: str) -> Parser:
@@ -18,7 +22,10 @@ class Parser:
         return Parser(lexer)
 
     def move(self):
-        self.look = next(self.token_generator)
+        try:
+            self.look = next(self.token_generator)
+        except StopIteration:
+            self.look = None
 
     def match(self, tag: Keywords | Token):
         if self.look.value == tag.value:
@@ -28,4 +35,5 @@ class Parser:
 
     def gen(self):
         self.token_generator = self.lex.tokens()
+        self.move()
         Program(self).gen()
