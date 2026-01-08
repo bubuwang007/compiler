@@ -58,6 +58,17 @@ class Token(enum.Enum):
     def is_basic_type(token: Token) -> bool:
         return token in [Token.INT, Token.FLOAT, Token.CHAR, Token.STR]
 
+    @staticmethod
+    def get_basic_type(token: str) -> Token | None:
+        mapping = {
+            "int": Token.INT,
+            "float": Token.FLOAT,
+            "char": Token.CHAR,
+            "str": Token.STR,
+        }
+        return mapping.get(token)
+
+
 Token.ONECHAR = {
     Token.SEMICOLON.value: Token.SEMICOLON,
     Token.LBRACE.value: Token.LBRACE,
