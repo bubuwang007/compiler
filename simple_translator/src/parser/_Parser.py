@@ -1,6 +1,6 @@
 from __future__ import annotations
 from ..lexer import Lexer, Reader, Keywords, Token
-from .._Env import Env
+from ..symbols._Env import Env
 from .nodes import Program
 
 
@@ -9,7 +9,8 @@ class Parser:
     top: Env
     look: Token | Keywords
 
-    block_num = 0
+    block_num: int = 0
+    used: int = 0
 
     def __init__(self, lex: Lexer):
         self.lex = lex

@@ -1,4 +1,4 @@
-from ..._Env import Env
+from ...symbols._Env import Env
 from ._Node import Node
 from ...lexer import Token
 from ._Decls import Decls
